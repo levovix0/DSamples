@@ -1,0 +1,42 @@
+﻿<Application x:Class="DSamples.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DSamples"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <FontFamily x:Key="Comfortaa">pack://application:,,,/Fonts/#Comfortaa</FontFamily>
+        <SolidColorBrush x:Key="Background1" Color="White"/>
+        <SolidColorBrush x:Key="Background2" Color="#F4F4F4"/>
+        <SolidColorBrush x:Key="Foreground1" Color="#505050"/>
+        <SolidColorBrush x:Key="Foreground2" Color="#898989"/>
+        <SolidColorBrush x:Key="WavePieceColor" Color="#A7A7A7"/>
+        <SolidColorBrush x:Key="WavePieceColor2" Color="#0AA7FF"/>
+
+        <sys:String x:Key="StrTheme">Тема</sys:String>
+        <sys:String x:Key="StrLanguage">Язык</sys:String>
+        <sys:String x:Key="StrServer">Сервер</sys:String>
+        <sys:String x:Key="StrAboutDTeam">О DTeam</sys:String>
+        <sys:String x:Key="ThereIsNothing">Тут пусто</sys:String>
+        <sys:String x:Key="StrIP">IP</sys:String>
+        <sys:String x:Key="StrFolder">Папка</sys:String>
+        <sys:String x:Key="StrLogin">Логин</sys:String>
+        <sys:String x:Key="StrPassword">Пароль</sys:String>
+        <sys:String x:Key="StrThisPC">Этот компьютер</sys:String>
+        <sys:String x:Key="StrNo">нет</sys:String>
+
+        <SolidColorBrush x:Key="brushWatermarkForeground" Color="#aaaaaa" />
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <Style x:Key="EntryFieldStyle" TargetType="Grid" >
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Grid x:Key="WavePiece" Width="3" MinHeight="3" Margin="2,0,0,0" VerticalAlignment="Center" Height="24">
+            <Rectangle Fill="{DynamicResource WavePieceColor}" Stroke="{x:Null}" RadiusY="1" RadiusX="1"/>
+        </Grid>
+
+    </Application.Resources>
+</Application>

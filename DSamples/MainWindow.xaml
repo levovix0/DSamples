@@ -1,0 +1,39 @@
+﻿<Window x:Class="DSamples.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DSamples"
+        mc:Ignorable="d"
+        Title="DSamples" Width="340" Height="520" AllowsTransparency="True" WindowStyle="None" Background="{x:Null}"
+        
+        MouseMove="MainWindow_OnMouseMove" MouseUp="OnMouseUp" Foreground="{DynamicResource Foreground1}">
+    <Window.Effect>
+        <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.35" RenderingBias="Quality"/>
+    </Window.Effect>
+    <Grid Name="AllGrid">
+        <Rectangle Name="TitleBackground0" Height="30" VerticalAlignment="Top" StrokeThickness="0" Margin="10,24,10,0" Fill="#FF212121" MouseDown="ToBeginDrag"/>
+        <Rectangle Name="TitleBackground" Height="30" RadiusY="15" RadiusX="15" VerticalAlignment="Top" MouseDown="ToBeginDrag" Margin="10,10,10,0">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF212121" Offset="0.042"/>
+                    <GradientStop Color="#FF2C2C2C" Offset="0"/>
+                    <GradientStop Color="#FF212121" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="BackgroundRect" Fill="{DynamicResource Background1}" RadiusY="15" RadiusX="15" StrokeThickness="0" MouseDown="Rectangle_MouseDown" Height="470" Width="320" Margin="10,40,10,10"/>
+        <Canvas Name="ApplicationRect" ClipToBounds="True" Margin="25,40,25,10">
+            <Label Content="{DynamicResource ThereIsNothing}" Foreground="{DynamicResource Foreground1}" Height="34" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" FontFamily="/DSamples;component/Fonts/#Comfortaa" FontSize="20" IsHitTestVisible="False" Canvas.Top="218"/>
+            <local:SampleBox Height="32" Canvas.Top="10" Width="290"/>
+        </Canvas>
+        <local:SettengPannel Visibility="Hidden" x:Name="SettingsPannel" HorizontalAlignment="Left" Height="140" Margin="130,40,0,0" VerticalAlignment="Top" Width="200"/>
+        <Image Name="CloseButton" Height="20" Margin="0,15,22,0" VerticalAlignment="Top" Source="close button.png" MouseDown="Button_MouseDown" MouseUp="Button_MouseUp" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" HorizontalAlignment="Right" Width="20"/>
+        <Image x:Name="MinimizeButton" Height="20" Margin="0,15,47,0" VerticalAlignment="Top" Source="Minimize button.png" MouseDown="Button_MouseDown" MouseUp="Button_MouseUp" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" HorizontalAlignment="Right" Width="20"/>
+        <Image HorizontalAlignment="Left" Height="22" Margin="25,13,0,0" VerticalAlignment="Top" Width="22" Source="icon.png" MouseDown="ToBeginDrag"/>
+        <Image x:Name="TopButton" Height="20" Margin="52,15,0,0" VerticalAlignment="Top" Source="TopButton1.png" MouseDown="Button_MouseDown" MouseUp="Button_MouseUp" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" HorizontalAlignment="Left" Width="20"/>
+        <Rectangle x:Name="SettingsIndicator" Fill="White" HorizontalAlignment="Right" Height="1" Margin="0,35,82,0" RadiusY="0.5" RadiusX="0.5" StrokeThickness="0" VerticalAlignment="Top" Width="0"/>
+        <Image x:Name="SettingsButton" Height="20" Margin="0,15,72,0" VerticalAlignment="Top" Source="SettingsButton.png" MouseDown="Button_MouseDown" MouseUp="Button_MouseUp" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" HorizontalAlignment="Right" Width="20"/>
+        <Rectangle Name="DownSizeBorder" Margin="25,0,25,8" RadiusY="2" RadiusX="2" StrokeThickness="0" Height="4" VerticalAlignment="Bottom" MouseDown="DownSizeBorder_MouseDown" Fill="#FF767676" Opacity="0" Cursor="SizeNS"/>
+    </Grid>
+</Window>
