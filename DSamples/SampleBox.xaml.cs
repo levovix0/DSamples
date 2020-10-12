@@ -232,7 +232,9 @@ namespace DSamples
             if (Mouse.LeftButton == MouseButtonState.Pressed)
             {
                 var path = Path.GetFullPath(file);
-                DragDrop.DoDragDrop(this, "file://" + path, DragDropEffects.Copy);
+                var dataObject = new DataObject(DataFormats.FileDrop, new string[]{path});
+                dataObject.SetData(DataFormats.StringFormat, dataObject);
+                DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
             }
         }
     }
