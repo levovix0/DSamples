@@ -16,10 +16,12 @@
         </Grid.ColumnDefinitions>
         <Rectangle Fill="{DynamicResource Background2}" Stroke="{x:Null}" RadiusX="10" RadiusY="10" Grid.ColumnSpan="4" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" MouseMove="Rectangle_MouseMove"/>
         <Path Data="M9.97553,3.08156L10.9328,6.02786C11.1337,6.6459,11.7096,7.06434,12.3594,7.06434L15.4574,7.06434C15.9417,7.06434,16.1431,7.68414,15.7512,7.96885L13.245,9.78976C12.7192,10.1717,12.4993,10.8488,12.7001,11.4668L13.6574,14.4131C13.8071,14.8738,13.2798,15.2568,12.888,14.9721L10.3817,13.1512C9.85595,12.7693,9.14405,12.7693,8.61832,13.1512L6.11204,14.9721C5.72019,15.2568,5.19295,14.8738,5.34262,14.4131L6.29994,11.4668C6.50075,10.8488,6.28076,10.1717,5.75503,9.78976L3.24875,7.96885C2.8569,7.68415,3.05828,7.06434,3.54265,7.06434L6.64057,7.06434C7.29041,7.06434,7.86635,6.6459,8.06716,6.02786L9.02447,3.08156C9.17415,2.6209,9.82585,2.6209,9.97553,3.08156z" Fill="{DynamicResource Foreground2}" Grid.Column="3" StrokeThickness="1" Stretch="Fill" Margin="0,0,8,9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="16" Width="16" />
-        <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Margin="8,7,4,6">
-            <Path Data="M15.5,8.13398C16.1667,8.51888,16.1667,9.48113,15.5,9.86603L5,15.9282C4.33333,16.3131,3.5,15.832,3.5,15.0622L3.5,2.93782C3.5,2.16802,4.33333,1.6869,5,2.0718L15.5,8.13398z" Fill="{DynamicResource Foreground2}" Margin="0" />
+        <Grid x:Name="PlayBtn" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Margin="8,7,4,6">
+            <Path Data="M15.5,8.13398C16.1667,8.51888,16.1667,9.48113,15.5,9.86603L5,15.9282C4.33333,16.3131,3.5,15.832,3.5,15.0622L3.5,2.93782C3.5,2.16802,4.33333,1.6869,5,2.0718L15.5,8.13398z" Fill="{DynamicResource Foreground2}" Margin="0" IsHitTestVisible="False" />
+            <Path Visibility="Collapsed" Fill="{DynamicResource Foreground2}" Stroke="{x:Null}" IsHitTestVisible="False"><Path.Data><RectangleGeometry RadiusX="2" RadiusY="2" Rect="3,1,4,16" /></Path.Data></Path>
+            <Path Visibility="Collapsed" Fill="{DynamicResource Foreground2}" Stroke="{x:Null}" IsHitTestVisible="False"><Path.Data><RectangleGeometry RadiusX="2" RadiusY="2" Rect="11,1,4,16" /></Path.Data></Path>
         </Grid>
-        <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontFamily="/DSamples;component/Fonts/#Comfortaa" Content="Sample" Grid.Column="2" FontSize="11" Foreground="{DynamicResource Foreground1}" IsHitTestVisible="False"/>
+        <Label x:Name="NameText" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FontFamily="/DSamples;component/Fonts/#Comfortaa" Content="Sample" Grid.Column="2" FontSize="11" Foreground="{DynamicResource Foreground1}" IsHitTestVisible="False"/>
         <StackPanel Name="WaveformPannel" Grid.Column="1" Orientation="Horizontal" Margin="4" IsHitTestVisible="False">
             
         </StackPanel>

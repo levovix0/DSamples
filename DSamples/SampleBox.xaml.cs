@@ -8,14 +8,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Xml.Serialization;
 using NAudio;
 using NAudio.Wave;
+using Path = System.IO.Path;
 
 namespace DSamples
 {
@@ -44,6 +49,19 @@ namespace DSamples
 
     public partial class SampleBox : UserControl
     {
+        DispatcherTimer timer = new DispatcherTimer();
+
+        public static SampleBox Create(string filename)
+        {
+            SampleBox box = new SampleBox();
+            box.Width = 290;
+            box.Height = 32;
+            box.Margin = new Thickness(0, 0, 0, 10);
+            box.BindWithFile(filename);
+
+            return box;
+        }
+        
         public static List<float> LoadWaveform(string filename, int lenght)
         {
             var reader = new WaveChannel32(new AudioFileReader(filename));
@@ -89,17 +107,34 @@ namespace DSamples
              foreach (var f in input)
              {
                  var x = (Application.Current.Resources["WavePiece"] as Grid).XamlClone();
-                 x.Height = /*ActualHeight*/ 24 * f;
+                 x.Height = /*WaveformHeight*/ 24 * f;
                  WaveformPannel.Children.Add(x);
              }
         }
 
         public string file;
 
+        public void BindWithFile(string filename)
+        {
+            file = filename;
+            NameText.Content = Path.GetFileNameWithoutExtension(filename);
+            BuildWaveform(LoadWaveform(file, (int)(/*WaveformWidth*/ 107 / 5)));
+        }
+        
         public SampleBox()
         {
             InitializeComponent();
-            BuildWaveform(LoadWaveform("x.wav", (int)(/*ActualWidth*/ 107 / 5)));
+            timer.Interval = TimeSpan.FromMilliseconds(1000 / 30);
+            timer.Tick += OnUpdate;
+            MusicPlayer.OnMusicStop += delegate
+            {
+                timer.Stop();
+                ResetWaveformProgress();
+                // кнопка [||] -> [|>]
+                PlayBtn.Children[0].Visibility = Visibility.Visible;
+                PlayBtn.Children[1].Visibility = Visibility.Collapsed;
+                PlayBtn.Children[2].Visibility = Visibility.Collapsed;
+            };
         }
 
         private bool _is_clicking = false;
@@ -113,14 +148,92 @@ namespace DSamples
         {
             if (_is_clicking)
             {
-                // TODO: play the music
+                PlayOrStop();
             }
+
             _is_clicking = false;
+        }
+
+        void PlayOrStop()
+        {
+            if (MusicPlayer.State == PlaybackState.Stopped)
+            {
+                Play();
+            }
+            else
+            {
+                MusicPlayer.Stop();
+                if (!object.ReferenceEquals(MusicPlayer.sender, this))
+                    Play();
+            }
+        }
+
+        void Play()
+        {
+            MusicPlayer.Stop();
+            MusicPlayer.OpenFile(file, this);
+            
+            MusicPlayer.Play();
+            timer.Start();
+            // кнопка [|>] -> [||]
+            PlayBtn.Children[0].Visibility = Visibility.Collapsed;
+            PlayBtn.Children[1].Visibility = Visibility.Visible;
+            PlayBtn.Children[2].Visibility = Visibility.Visible;
+        }
+
+        private void OnUpdate(object sender, EventArgs e)
+        {
+            // TODO: текущий вариант тормозить, реализовать через собственный рендеринг
+            // update waveform progress
+            if (MusicPlayer.State == PlaybackState.Stopped)
+            {
+                ResetWaveformProgress();
+                return;
+            }
+            var pos = (int)(MusicPlayer.GetT() * WaveformPannel.Children.Count);
+            for (int i = 0; i < WaveformPannel.Children.Count; i++)
+            {
+                var rect = (WaveformPannel.Children[i] as Grid).Children[0] as Rectangle;
+                if (i <= pos)
+                {
+                    rect.Fill = Application.Current.Resources["WavePieceColor2"] as Brush;
+                }
+                else
+                {
+                    rect.Fill = Application.Current.Resources["WavePieceColor"] as Brush;
+                }
+            }
+        }
+
+        private void ResetWaveformProgress()
+        {
+            foreach (var a in WaveformPannel.Children)
+            {
+                var rect = (a as Grid).Children[0] as Rectangle;
+                var anim = new ColorAnimation(
+                    (rect.Fill as SolidColorBrush).Color, 
+                    (Application.Current.Resources["WavePieceColor"] as SolidColorBrush).Color, 
+                    new Duration(TimeSpan.FromMilliseconds(200)));
+                
+                anim.FillBehavior = FillBehavior.Stop;
+                var brh = new SolidColorBrush((Application.Current.Resources["WavePieceColor"] as SolidColorBrush).Color);
+                brh.BeginAnimation(SolidColorBrush.ColorProperty, anim);
+                rect.Fill = brh;
+                anim.Completed += delegate(object sender, EventArgs args)
+                {
+                    brh.BeginAnimation(SolidColorBrush.ColorProperty, null);
+                };
+            }
         }
 
         private void Rectangle_MouseMove(object sender, MouseEventArgs e)
         {
             _is_clicking = false;
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                var path = Path.GetFullPath(file);
+                DragDrop.DoDragDrop(this, "file://" + path, DragDropEffects.Copy);
+            }
         }
     }
 }

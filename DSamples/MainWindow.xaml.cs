@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,6 +16,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace DSamples
 {
@@ -89,6 +91,31 @@ namespace DSamples
             SettingsPannel.FolderTB.Text = Global.folder;
             SettingsPannel.LoginTB.Text = Global.login;
             SettingsPannel.PasswordTB.Password = Global.password;
+
+            var files = Directory.GetFiles(".");
+            foreach (var file in files)
+            {
+                if (Path.GetExtension(file) == ".wav")
+                    AddSample(file);
+            }
+        }
+
+        void AddSample(string file)
+        {
+            SampleBoxesPanel.Children.Add(SampleBox.Create(file));
+            CheckSamples();
+        }
+
+        void CheckSamples()
+        {
+            if (SampleBoxesPanel.Children.Count > 0)
+            {
+                NothingLabel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                NothingLabel.Visibility = Visibility.Visible;
+            }
         }
 
         ~MainWindow()
